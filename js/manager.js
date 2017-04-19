@@ -19,7 +19,7 @@ module.exports = function (oAppData) {
 		return {
 			start: function (ModulesManager) {
 				App.subscribeEvent('MailWebclient::ParseFile::after', function (oFile) {
-					if (oFile && _.isFunction(oFile.addAction) && oFile.mimeType().indexOf('tnef') !== -1)
+					if (oFile && _.isFunction(oFile.addAction) && oFile.extension() === 'dat')
 					{
 						oFile.mailtnefSubFilesLoaded = ko.observable(false);
 						oFile.mailtnefSubFilesLoading = ko.observable(false);
@@ -80,6 +80,7 @@ module.exports = function (oAppData) {
 						};
 
 						oFile.addAction('expand', true, oActionData);
+						oFile.removeAction('view');
 					}
 				});
 			}
