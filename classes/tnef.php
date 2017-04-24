@@ -2,7 +2,7 @@
 
 class TNEF 
 {
-	var $debug		= false;
+	var $debug		= true;
 	var $download	= false;
 
 	var $TNEF_SIGNATURE						= 0x223e9f78;
@@ -195,7 +195,7 @@ class TNEF
 					$this->getx(16, $value); // skip the next 16 bytes (unknown data)
 					array_shift($attachment_data); // eliminate the current (bogus) attachment
 
-					$this->do_tnef_decode($value, $attachment_data); // recursively process the attached message
+//					$this->do_tnef_decode($value, $attachment_data); // recursively process the attached message
 
 					break;
 				default:
