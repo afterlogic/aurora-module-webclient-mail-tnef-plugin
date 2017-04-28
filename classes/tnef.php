@@ -2,7 +2,7 @@
 
 class TNEF 
 {
-	var $debug		= true;
+	var $debug		= false;
 	var $download	= false;
 
 	var $TNEF_SIGNATURE						= 0x223e9f78;

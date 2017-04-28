@@ -32,8 +32,8 @@ class Module extends \Aurora\System\Module\AbstractModule
 		
 		$sUUID = \Aurora\System\Api::getUserUUIDById($UserId);
 		$aValues = \Aurora\System\Api::DecodeKeyValues($Hash);
-		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Mail');
-		$aFiles = $oCoreDecorator->SaveAttachmentsAsTempFiles($aValues['AccountID'], [$Hash]);
+		$oMailDecorator = \Aurora\System\Api::GetModuleDecorator('Mail');
+		$aFiles = $oMailDecorator->SaveAttachmentsAsTempFiles($aValues['AccountID'], [$Hash]);
 		foreach ($aFiles as $sTempName => $sHash)
 		{
 			if ($sHash === $Hash)
