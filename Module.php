@@ -23,7 +23,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	public function init() 
 	{
 		$this->incClass('tnef');
-		$this->oApiFileCache = new \Aurora\System\Managers\Filecache\Manager();
+		$this->oApiFileCache = new \Aurora\System\Managers\Filecache();
 	}
 	
 	public function ExpandFile($UserId, $Hash)
