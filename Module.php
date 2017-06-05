@@ -16,7 +16,7 @@ namespace Aurora\Modules\MailTnefWebclientPlugin;
 class Module extends \Aurora\System\Module\AbstractModule
 {
 	/* 
-	 * @var $oApiFileCache \Aurora\System\Managers\Filecache\Manager 
+	 * @var $oApiFileCache \Aurora\System\Managers\Filecache 
 	 */	
 	public $oApiFileCache = null;
 	
