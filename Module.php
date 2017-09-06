@@ -22,7 +22,6 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function init() 
 	{
-		$this->incClass('tnef');
 		$this->oApiFileCache = new \Aurora\System\Managers\Filecache();
 	}
 	
@@ -50,7 +49,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$mResult = array();
 
-		$oTNEF = new \TNEF();
+		$oTNEF = new Classes\Tnef();
 		if ($oTNEF)
 		{
 			$aData = $oTNEF->Decode(\stream_get_contents($rResource));

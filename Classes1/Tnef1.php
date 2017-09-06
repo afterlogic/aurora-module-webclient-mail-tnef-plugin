@@ -1,6 +1,8 @@
 <?php
 
-class TNEF 
+namespace Aurora\Modules\MailTnefWebclientPlugin\Classes;
+
+class Tnef
 {
 	var $debug		= false;
 	var $download	= false;
