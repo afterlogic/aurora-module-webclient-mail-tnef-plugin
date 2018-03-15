@@ -37,7 +37,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		{
 			if ($sHash === $Hash)
 			{
-				$rResource = $this->oApiFileCache->getFile($sUUID, $sTempName);
+				$rResource = $this->oApiFileCache->getFile($sUUID, $sTempName, '', 'Mail');
 				$mResult = $this->expandTnefAttachment($sUUID, $rResource);
 			}
 		}
@@ -65,10 +65,12 @@ class Module extends \Aurora\System\Module\AbstractModule
 						$rItemStream = fopen('php://memory','r+');
 						fwrite($rItemStream, $aItem['stream']);
 						rewind($rItemStream);
-						if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream))
+						if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream, '', 'Mail'))
 						{
 							$sFileName = str_replace("\0", '', $sFileName);
-							$mResult[] = \Aurora\System\Utils::GetClientFileResponse(\Aurora\System\Api::getAuthenticatedUserId(), $sFileName, $sTempName, strlen($aItem['stream']));
+							$mResult[] = \Aurora\System\Utils::GetClientFileResponse(
+								$this->GetName(), \Aurora\System\Api::getAuthenticatedUserId(), $sFileName, $sTempName, strlen($aItem['stream'])
+							);
 						}
 					}
 				}
