@@ -66,11 +66,11 @@ class Module extends \Aurora\System\Module\AbstractModule
 						$rItemStream = fopen('php://memory','r+');
 						fwrite($rItemStream, $aItem['stream']);
 						rewind($rItemStream);
-						if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream, '', $this->GetName()))
+						if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream, '', self::GetName()))
 						{
 							$sFileName = str_replace("\0", '', $sFileName);
 							$mResult[] = \Aurora\System\Utils::GetClientFileResponse(
-								$this->GetName(), \Aurora\System\Api::getAuthenticatedUserId(), $sFileName, $sTempName, strlen($aItem['stream'])
+								self::GetName(), \Aurora\System\Api::getAuthenticatedUserId(), $sFileName, $sTempName, strlen($aItem['stream'])
 							);
 						}
 					}
