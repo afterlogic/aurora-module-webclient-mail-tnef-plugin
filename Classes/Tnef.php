@@ -2,6 +2,9 @@
 
 namespace Aurora\Modules\MailTnefWebclientPlugin\Classes;
 
+use \Aurora\System\Enums\LogLevel;
+use \Aurora\Api;
+
 class TNEF {
 
 	public $debug		= false;
@@ -98,7 +101,7 @@ class TNEF {
 		$this->geti($buf, 16); //checksum
 		if ($this->debug) {
 			printf("ATTRIBUTE[%08x] %d bytes\n", $attribute, $length);
-			\CApi::Log(sprintf("ATTRIBUTE[%08x] %d bytes\n", $attribute, $length), \ELogLevel::Full, 'tnef-');
+			\Aurora\Api::Log(sprintf("ATTRIBUTE[%08x] %d bytes\n", $attribute, $length), LogLevel::Full, 'tnef-');
 		}
 		switch($attribute) {
 		case $this->TNEF_BODYTEXT:
@@ -122,7 +125,7 @@ class TNEF {
 			
 			if ($this->debug) {
 				printf("mapi attribute: %04x:%04x\n", $attr_type, $attr_name);
-				\CApi::Log(sprintf("mapi attribute: %04x:%04x\n", $attr_type, $attr_name), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("mapi attribute: %04x:%04x\n", $attr_type, $attr_name), LogLevel::Full, 'tnef-');
 			}
 			
             if (($attr_type & $this->TNEF_MAPI_MV_FLAG) != 0) {
@@ -191,7 +194,7 @@ class TNEF {
 				default:
 					if ($this->debug) {
 						echo("Unknown mapi attribute!\n");
-						\CApi::Log('Unknown mapi attribute!\n', \ELogLevel::Full, 'tnef-');
+						Api::Log('Unknown mapi attribute!\n', LogLevel::Full, 'tnef-');
 					}
 			}
 			
@@ -222,7 +225,7 @@ class TNEF {
 	public function decode_message(&$buf) {
 		if ($this->debug) {
 			echo("MESSAGE ");
-			\CApi::Log('MESSAGE ', \ELogLevel::Full, 'tnef-');
+			Api::Log('MESSAGE ', LogLevel::Full, 'tnef-');
 		}
 		$attribute = $this->geti($buf, 32);
 		$this->decode_attribute($attribute, $buf);
@@ -232,7 +235,7 @@ class TNEF {
 	
 		if ($this->debug) {
 			echo("ATTACHMENT ");
-			\CApi::Log('ATTACHMENT ', \ELogLevel::Full, 'tnef-');
+			Api::Log('ATTACHMENT ', LogLevel::Full, 'tnef-');
 		}
 		$attribute = $this->geti($buf, 32);
 		switch($attribute) {	
@@ -242,7 +245,7 @@ class TNEF {
 			$this->geti($buf, 16); //checksum
 			if ($this->debug) {
 				printf("ARENDDATA[%08x]: %d bytes\n", $attribute, $length);
-				\CApi::Log(sprintf("ARENDDATA[%08x]: %d bytes\n", $attribute, $length), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("ARENDDATA[%08x]: %d bytes\n", $attribute, $length), LogLevel::Full, 'tnef-');
 			}
 			// add a new default data block to hold details of this attachment
 			// reverse order is easier to handle later!
@@ -260,7 +263,7 @@ class TNEF {
 			$this->geti($buf, 16); //checksum
 			if ($this->debug) {
 				printf("AFILENAME[%08x]: %s\n", $attribute, $attachment_data[0]['name']);
-				\CApi::Log(sprintf("AFILENAME[%08x]: %s\n", $attribute, $attachment_data[0]['name']), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("AFILENAME[%08x]: %s\n", $attribute, $attachment_data[0]['name']), LogLevel::Full, 'tnef-');
 			}
 			break;
 		
@@ -271,7 +274,7 @@ class TNEF {
 			$this->geti($buf, 16); //checksum
 			if ($this->debug) {
 				printf("ATTACHDATA[%08x]: %d bytes\n", $attribute, $length);
-				\CApi::Log(sprintf("ATTACHDATA[%08x]: %d bytes\n", $attribute, $length), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("ATTACHDATA[%08x]: %d bytes\n", $attribute, $length), LogLevel::Full, 'tnef-');
 			}
 			break;
 		
@@ -281,7 +284,7 @@ class TNEF {
 			$this->geti($buf, 16); //checksum
 			if ($this->debug) {
 				printf("AMAPIATTRS[%08x]: %d bytes\n", $attribute, $length);
-				\CApi::Log(sprintf("AMAPIATTRS[%08x]: %d bytes\n", $attribute, $length), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("AMAPIATTRS[%08x]: %d bytes\n", $attribute, $length), LogLevel::Full, 'tnef-');
 			}
 			$this->extract_mapi_attrs($value, $attachment_data);
 			break;
@@ -297,7 +300,7 @@ class TNEF {
 			$tnef_key = $this->geti($buf, 16);
 			if ($this->debug) {
 				printf("Signature: 0x%08x\nKey: 0x%04x\n", $tnef_signature, $tnef_key);
-				\CApi::Log(sprintf("Signature: 0x%08x\nKey: 0x%04x\n", $tnef_signature, $tnef_key), \ELogLevel::Full, 'tnef-');
+				Api::Log(sprintf("Signature: 0x%08x\nKey: 0x%04x\n", $tnef_signature, $tnef_key), LogLevel::Full, 'tnef-');
 			}
 		
 			while (strlen($buf) > 0) {
@@ -313,7 +316,7 @@ class TNEF {
 				default:
 					if ($this->debug) {
 						echo("Invalid file format!");
-						\CApi::Log('Invalid file format!', \ELogLevel::Full, 'tnef-');
+						Api::Log('Invalid file format!', LogLevel::Full, 'tnef-');
 					}
 					break 2;
 				}
@@ -321,7 +324,7 @@ class TNEF {
 		} else {
 			if ($this->debug) {
 				echo("Invalid file format!");
-				\CApi::Log('Invalid file format!', \ELogLevel::Full, 'tnef-');
+				Api::Log('Invalid file format!', LogLevel::Full, 'tnef-');
 			}
 		}
 	}
