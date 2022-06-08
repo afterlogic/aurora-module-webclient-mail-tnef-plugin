@@ -1,10 +1,18 @@
 {
-    "Disabled": [
-		false,
-		"bool"
-	],
-    "IncludeInMobile": [
-		true,
-		"bool"
-	]
+  "Disabled": [
+    false,
+    "bool"
+  ],
+  "Disabled_Description": [
+    "",
+    "string"
+  ],
+  "IncludeInMobile": [
+    true,
+    "bool"
+  ],
+  "IncludeInMobile_Description": [
+    "",
+    "string"
+  ]
 }
