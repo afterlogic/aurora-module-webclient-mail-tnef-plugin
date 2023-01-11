@@ -52,7 +52,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$mResult = array();
 
-		$oTNEF = new Classes\Tnef();
+		$oTNEF = new Classes\TNEF();
 		if ($oTNEF && $rResource)
 		{
 			$aData = $oTNEF->Decode(\stream_get_contents($rResource));
