@@ -28,6 +28,15 @@ class Module extends \Aurora\System\Module\AbstractModule
         $this->oApiFileCache = new \Aurora\System\Managers\Filecache();
     }
 
+    /**
+     *
+     * @return Module
+     */
+    public static function Decorator()
+    {
+        return parent::Decorator();
+    }
+
     public function ExpandFile($UserId, $Hash)
     {
         $mResult = array();
