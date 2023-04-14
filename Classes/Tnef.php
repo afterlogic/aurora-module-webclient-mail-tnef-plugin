@@ -135,7 +135,8 @@ class TNEF
 
             if (($attr_type & $this->TNEF_MAPI_MV_FLAG) != 0) {
                 $have_length = true;
-                $attr_type = $attr_type & ~$this->TNEF_MAPI_MV_FLAG;
+                // @phpstan-ignore-next-line
+                $attr_type = $attr_type & ~($this->TNEF_MAPI_MV_FLAG);
             }
 
             if (($attr_name >= 0x8000) && ($attr_name < 0xFFFE)) {
