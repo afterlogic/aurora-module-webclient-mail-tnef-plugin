@@ -76,29 +76,28 @@ class Module extends \Aurora\System\Module\AbstractModule
     {
         $mResult = array();
 
-        $oTNEF = new Classes\TNEF();
-        if ($oTNEF && $rResource) {
-            $aData = $oTNEF->Decode(\stream_get_contents($rResource));
-            if (is_array($aData)) {
-                foreach ($aData as $aItem) {
-                    if (is_array($aItem) && isset($aItem['name'], $aItem['stream'])) {
-                        $sFileName = \MailSo\Base\Utils::Utf8Clear(basename($aItem['name']));
+        $attachment = new \TNEFDecoder\TNEFAttachment();
+        if ($rResource) {
+            $attachment->decodeTnef(\stream_get_contents($rResource));
+            $files = $attachment->getFiles();
 
-                        $sTempName = md5(\microtime(true).rand(1000, 9999));
-                        $rItemStream = fopen('php://memory', 'r+');
-                        fwrite($rItemStream, $aItem['stream']);
-                        rewind($rItemStream);
-                        if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream, '', self::GetName())) {
-                            $sFileName = str_replace("\0", '', $sFileName);
-                            $mResult[] = \Aurora\System\Utils::GetClientFileResponse(
-                                self::GetName(),
-                                \Aurora\System\Api::getAuthenticatedUserId(),
-                                $sFileName,
-                                $sTempName,
-                                strlen($aItem['stream'])
-                            );
-                        }
-                    }
+            foreach ($files as $file) {
+                $sFileName = $file->getName();
+
+                $sTempName = md5(\microtime(true).rand(1000, 9999));
+                $rItemStream = fopen('php://memory', 'r+');
+                fwrite($rItemStream, $file->getContent());
+                rewind($rItemStream);
+
+                if ($this->oApiFileCache->putFile($sUUID, $sTempName, $rItemStream, '', self::GetName())) {
+                    $sFileName = str_replace("\0", '', $sFileName);
+                    $mResult[] = \Aurora\System\Utils::GetClientFileResponse(
+                        self::GetName(),
+                        \Aurora\System\Api::getAuthenticatedUserId(),
+                        $sFileName,
+                        $sTempName,
+                        strlen($file->getSize())
+                    );
                 }
             }
         }
