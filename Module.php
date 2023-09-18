@@ -84,6 +84,11 @@ class Module extends \Aurora\System\Module\AbstractModule
             foreach ($files as $file) {
                 $sFileName = $file->getName();
 
+                $sFileNameEncoding = mb_detect_encoding($sFileName, array("UTF-8", "SJIS"));
+                if ($sFileNameEncoding != "UTF-8") {
+                    $sFileName = mb_convert_encoding($sFileName, "UTF-8", $sFileNameEncoding);
+                }
+
                 $sTempName = md5(\microtime(true).rand(1000, 9999));
                 $rItemStream = fopen('php://memory', 'r+');
                 fwrite($rItemStream, $file->getContent());
