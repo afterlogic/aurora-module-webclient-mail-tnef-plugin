@@ -89,7 +89,7 @@ class Module extends \Aurora\System\Module\AbstractModule
                     $sFileName = mb_convert_encoding($sFileName, "UTF-8", $sFileNameEncoding);
                 }
 
-                $sTempName = md5(\microtime(true).rand(1000, 9999));
+                $sTempName = md5(\microtime(true) . rand(1000, 9999));
                 $rItemStream = fopen('php://memory', 'r+');
                 fwrite($rItemStream, $file->getContent());
                 rewind($rItemStream);
