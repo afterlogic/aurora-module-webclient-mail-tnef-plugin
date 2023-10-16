@@ -19,7 +19,7 @@ module.exports = function (oAppData) {
 		return {
 			start: function (ModulesManager) {
 				App.subscribeEvent('MailWebclient::ParseFile::after', function (oFile) {
-					if (oFile && _.isFunction(oFile.addAction) && oFile.extension() === 'dat')
+					if (oFile && !oFile.inline() && _.isFunction(oFile.addAction) && oFile.extension() === 'dat')
 					{
 						oFile.mailtnefSubFilesLoaded = ko.observable(false);
 						oFile.mailtnefSubFilesLoading = ko.observable(false);
